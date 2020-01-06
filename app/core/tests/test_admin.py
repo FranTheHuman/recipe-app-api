@@ -1,9 +1,10 @@
 from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
-from django.urls import reverse 
+from django.urls import reverse
+
 
 class AdminSiteTests(TestCase):
-    
+
     def setUp(self):
         self.client = Client()
         self.admin_user = get_user_model().objects.create_superuser(
@@ -16,7 +17,7 @@ class AdminSiteTests(TestCase):
             password='test123',
             name='test name'
         )
-    
+
     def test_users_listed(self):
         """Test that users are listed on user page"""
         url = reverse('admin:core_user_changelist')
@@ -27,7 +28,8 @@ class AdminSiteTests(TestCase):
 
     def test_user_change_page(self):
         """Test that the user edit page works"""
-        url = reverse('admin:core_user_change', args=[self.user.id]) # /admin/core/user/1
+        url = reverse('admin:core_user_change', args=[
+                      self.user.id])  # /admin/core/user/1
         res = self.client.get(url)
 
         self.assertEqual(res.status_code, 200)
